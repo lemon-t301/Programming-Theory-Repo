@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PersistentData : MonoBehaviour
 {
@@ -33,13 +34,18 @@ public class PersistentData : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void SetPersistentData(Item chosenItem)
     {
+        Debug.Log("SetPersistentData:");
+        Debug.Log(chosenItem);
         if (chosenItem != null)
         {
             _chosenItem = chosenItem;
+            //DontDestroyOnLoad(_chosenItem.gameObject);
             return;
         }
         Debug.LogWarning("Can't set chosen item, Item parameter cannot be null.");
@@ -65,5 +71,14 @@ public class PersistentData : MonoBehaviour
     {
         if (_instance == null) return;
         _instance.SetPersistentData(chosenItem, gameMode);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"Loaded scene {scene.name}.");
+        Debug.Log("_chosenItem");
+        Debug.Log(_chosenItem);
+        Debug.Log("_gameMode");
+        Debug.Log(_gameMode);
     }
 }

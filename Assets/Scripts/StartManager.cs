@@ -41,6 +41,9 @@ public class StartManager : MonoBehaviour
                 break;
         }
 
+        Debug.Log("Attempt to save data: ");
+        Debug.Log(item);
+        Debug.Log(gameMode);
         PersistentData.SavePersistentData(item, gameMode);
         SceneManager.LoadScene(1);
     }
