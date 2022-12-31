@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NumberItem : Item
 {
-    new private int _value;
+    private int _number;
 
-    new public int Value { get { return _value; } protected set { _value = value; } }
+    public int Number { get { return _number; } protected set { _number = value; } }
 
     public int rangeMin = 1;
     public int rangeMax = 3;
@@ -29,11 +29,11 @@ public class NumberItem : Item
             return;
         }
 
-        _value = Random.Range(rangeMin, rangeMax);
+        _number = Random.Range(rangeMin, rangeMax);
     }
 
     public bool CompareItem(int number)
     {
-        return (number == this._value);
+        return (number == this._number);
     }
 }

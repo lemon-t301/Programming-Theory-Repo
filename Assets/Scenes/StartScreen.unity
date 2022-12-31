@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 322806117}
+  - component: {fileID: 322806118}
   m_Layer: 0
   m_Name: StartManager
   m_TagString: Untagged
@@ -154,6 +155,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &322806118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322806116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da09d81a62b9f39419fa12ef9c779e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectItem: {fileID: 1479363694}
+  numberItem: {fileID: 1360291138}
+  colorItem: {fileID: 785652653}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -116}
+  m_AnchoredPosition: {x: 0, y: -70}
   m_SizeDelta: {x: 900, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &381917398
@@ -332,7 +348,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'OOP Programming Demo
 
-    Guess This'
+    "Guess This"'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -677,8 +693,9 @@ GameObject:
   - component: {fileID: 785652652}
   - component: {fileID: 785652651}
   - component: {fileID: 785652650}
+  - component: {fileID: 785652653}
   m_Layer: 5
-  m_Name: StartButton (2)
+  m_Name: StartColorButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,7 +765,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 785652651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 322806118}
+        m_TargetAssemblyTypeName: StartManager, Assembly-CSharp
+        m_MethodName: StartGuessColorGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &785652651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,6 +816,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785652648}
   m_CullTransparentMesh: 1
+--- !u!114 &785652653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785652648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fe4018fdfe0cf45a9508dbeeb3804b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomColors:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,6 +890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 872665405}
+  - component: {fileID: 872665406}
   m_Layer: 0
   m_Name: PersistentData
   m_TagString: Untagged
@@ -867,6 +913,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &872665406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872665404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cca9167d0149444ca807d520b691e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1360291133
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,8 +937,9 @@ GameObject:
   - component: {fileID: 1360291137}
   - component: {fileID: 1360291136}
   - component: {fileID: 1360291135}
+  - component: {fileID: 1360291138}
   m_Layer: 5
-  m_Name: StartButton (1)
+  m_Name: StartNumberButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -950,7 +1009,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1360291136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 322806118}
+        m_TargetAssemblyTypeName: StartManager, Assembly-CSharp
+        m_MethodName: StartGuessNumberGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1360291136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,6 +1060,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360291133}
   m_CullTransparentMesh: 1
+--- !u!114 &1360291138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360291133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3db9716dd887d94ebb6be2e786bcc8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangeMin: 1
+  rangeMax: 3
 --- !u!1 &1479363689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,8 +1086,9 @@ GameObject:
   - component: {fileID: 1479363693}
   - component: {fileID: 1479363692}
   - component: {fileID: 1479363691}
+  - component: {fileID: 1479363694}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: StartObjectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1072,7 +1158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1479363692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 322806118}
+        m_TargetAssemblyTypeName: StartManager, Assembly-CSharp
+        m_MethodName: StartGuessObjectGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1479363692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,6 +1209,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479363689}
   m_CullTransparentMesh: 1
+--- !u!114 &1479363694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479363689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b822f5bf98b7e004fb09e026c61e5541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomObjects:
+  - {fileID: 3843417395782075326, guid: 58cb99c6a0c75294e84317b0c1e2b123, type: 3}
+  - {fileID: 4535292317605298735, guid: def3a2553f523f64185263f81fd52eac, type: 3}
+  - {fileID: 576669982563086421, guid: d1f6be842fd006544bf1508fad21fb7c, type: 3}
 --- !u!1 &1520892493
 GameObject:
   m_ObjectHideFlags: 0

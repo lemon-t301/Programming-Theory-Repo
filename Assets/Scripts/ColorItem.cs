@@ -10,9 +10,9 @@ public class ColorItem : Item
         get { return _color; }
         private set { _color = value; }
     }*/
-    new private Color _value;
+    private Color _color;
 
-    new public Color Value { get { return _value; } protected set { _value = value; } }
+    public Color Color { get { return _color; } protected set { _color = value; } }
 
     public Color[] randomColors;
 
@@ -24,11 +24,11 @@ public class ColorItem : Item
             return;
         }
 
-        _value = randomColors[Random.Range(0, randomColors.Length)];
+        _color = randomColors[Random.Range(0, randomColors.Length)];
     }
 
     public bool CompareItem(Color color)
     {
-        return (this._value.Equals(color));
+        return (this._color.Equals(color));
     }
 }

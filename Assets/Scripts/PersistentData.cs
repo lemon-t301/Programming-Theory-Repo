@@ -60,4 +60,10 @@ public class PersistentData : MonoBehaviour
         SetPersistentData(chosenItem);
         SetPersistentData(gameMode);
     }
+
+    public static void SavePersistentData(Item chosenItem, GameManager.GameType gameMode)
+    {
+        if (_instance == null) return;
+        _instance.SetPersistentData(chosenItem, gameMode);
+    }
 }
