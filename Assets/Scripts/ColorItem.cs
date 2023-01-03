@@ -25,10 +25,20 @@ public class ColorItem : Item
         }
 
         _color = randomColors[Random.Range(0, randomColors.Length)];
+        _value = _color;
     }
 
-    public bool CompareItem(Color color)
+    public override bool CompareItem(object obj)
     {
+        Color color = (Color)obj;
         return (this._color.Equals(color));
+    }
+
+    public override object[] GetChoices()
+    {
+        object[] objects;
+        objects = System.Array.ConvertAll(randomColors, item => item as object);
+        return objects;
+        //return randomColors;
     }
 }

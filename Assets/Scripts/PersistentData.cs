@@ -15,11 +15,11 @@ public class PersistentData : MonoBehaviour
         private set { }
     }
 
-    private Item _chosenItem;
-    public Item ChosenItem { get; private set; }
+    private Item _chosenGame;
+    public Item ChosenGame { get { return _chosenGame; } private set { _chosenGame = value; } }
 
     private GameManager.GameType _gameMode;
-    public GameManager.GameType GameMode { get; private set; }
+    public GameManager.GameType GameMode { get { return _gameMode; } private set { _gameMode = value; } }
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class PersistentData : MonoBehaviour
         Debug.Log(chosenItem);
         if (chosenItem != null)
         {
-            _chosenItem = chosenItem;
+            _chosenGame = chosenItem;
             //DontDestroyOnLoad(_chosenItem.gameObject);
             return;
         }
@@ -76,9 +76,9 @@ public class PersistentData : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"Loaded scene {scene.name}.");
-        Debug.Log("_chosenItem");
-        Debug.Log(_chosenItem);
-        Debug.Log("_gameMode");
+        Debug.Log("Saved _chosenGame");
+        Debug.Log(_chosenGame);
+        Debug.Log("Saved _gameMode");
         Debug.Log(_gameMode);
     }
 }

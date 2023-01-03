@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3843417395782075323}
   - component: {fileID: 3843417395782075324}
   - component: {fileID: 3843417395782075325}
+  - component: {fileID: -1401959797023634409}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Cube
@@ -300,7 +301,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25a9fb42d361f46ad89221f6d301e96e, type: 2}
+  - {fileID: 2100000, guid: 5116a72895d233748a119d6bad75c349, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -341,6 +342,20 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &-1401959797023634409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843417395782075326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef0f517a9d00e849903ca0ff6d2a011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mEnterMaterial: {fileID: 2100000, guid: a7c166f36de584c4ab1a246bcf10b157, type: 2}
+  mDownMaterial: {fileID: 2100000, guid: c94ac5917be46814cb34061caf3bd3c6, type: 2}
