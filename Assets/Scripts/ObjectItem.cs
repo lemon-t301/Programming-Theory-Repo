@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ObjectItem : Item
 {
+    private GameObject _objValue;
+
+    public GameObject ObjValue { get { return _objValue; } protected set { _objValue = value; } }
+
     public GameObject[] randomObjects;
 
     public override void GenerateRandom()
@@ -14,14 +18,15 @@ public class ObjectItem : Item
             return;
         }
 
-        _value = randomObjects[Random.Range(0, randomObjects.Length)].tag;
+        _objValue = randomObjects[Random.Range(0, randomObjects.Length)];
+        _value = _objValue.tag;
     }
 
     public override bool CompareItem(object obj)
     {
         GameObject gObject = (GameObject)obj;
 
-        return ((string)_value == gObject.tag);
+        return _value.ToString() == gObject.tag;
     }
 
     public override object[] GetChoices()

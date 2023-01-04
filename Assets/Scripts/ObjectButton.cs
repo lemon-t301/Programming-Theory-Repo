@@ -28,7 +28,8 @@ public class ObjectButton : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        ChangeMaterial(mEnterMaterial);
+        //ChangeMaterial(mEnterMaterial);
+        ResetMaterial();
         EventManager.TriggerEvent("ObjectItemClicked", gameObject);
     }
 

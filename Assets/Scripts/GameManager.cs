@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
     private string _gameTitle;
 
     [SerializeField]
+    private GameObject _gameResultCanvas;
+    [SerializeField]
+    private GameObject _gameResultDisplayBox;
+    [SerializeField]
+    private GameObject _guessedDisplayBox;
+    [SerializeField]
     private GameObject _worldCanvas;
     [SerializeField]
     private GameObject _choiceButton;
@@ -28,13 +34,15 @@ public class GameManager : MonoBehaviour
     private int rows;
     public Vector2 gridCellSize;
     public Vector2 gridOffset;
-    private int _gridCellsCount;
-    private Vector3 _gridCellPositionBuffer;
 
     private GameType _gameMode;
     private Item _gameItem;
+    /*private ObjectItem _gameObjectItem;
+    private NumberItem _gameNumberItem;
+    private ColorItem _gameColorItem;*/
     private object[] _choices;
     private object _guess;
+    private GameObject _gameResult;
     private bool _guessed;
     private bool _gameover;
 
@@ -50,16 +58,55 @@ public class GameManager : MonoBehaviour
         _gameover = false;
 
         _gameMode = PersistentData.Instance.GameMode;
-        _gameItem = PersistentData.Instance.ChosenGame;
+        //_gameItem = PersistentData.Instance.ChosenGame;
+        SetGameItem(PersistentData.Instance.ChosenGame);
+
         Debug.Log("chosen _gameMode");
         Debug.Log(_gameMode);
-        Debug.Log("chosen _gameItem");
-        Debug.Log(_gameItem);
+        Debug.Log("GetGameItem");
+        Debug.Log(GetGameItem());
         UpdateGameTitle();
 
-        _choices = _gameItem.GetChoices();
+        _choices = GetGameItem().GetChoices();
         _choicesButtons = new GameObject[_choices.Length];
         ShowChoices();
+    }
+
+    private Item GetGameItem()
+    {
+        /*switch (_gameMode)
+        {
+            case GameType.guessObject:
+                return _gameObjectItem;
+
+            case GameType.guessNumber:
+                return _gameNumberItem;
+
+            case GameType.guessColor:
+                return _gameColorItem;
+        }*/
+
+        return _gameItem;
+    }
+
+    private void SetGameItem(Item gameItem)
+    {
+        /*switch (_gameMode)
+        {
+            case GameType.guessObject:
+                _gameObjectItem = (ObjectItem)gameItem;
+                break;
+
+            case GameType.guessNumber:
+                _gameNumberItem = (NumberItem)gameItem;
+                break;
+
+            case GameType.guessColor:
+                _gameColorItem = (ColorItem)gameItem;
+                break;
+        }*/
+
+        _gameItem = gameItem;
     }
 
     private void ShowChoices()
@@ -104,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject DisplayObjectChoice(GameObject gObject)
     {
-        GameObject obj = InstantiateChoiceObject(gObject);
+        GameObject obj = InstantiateChoiceObject(gObject, Quaternion.Euler(-30.0f, 45.0f, 0.0f));
 
         return obj;
     }
@@ -141,6 +188,15 @@ public class GameManager : MonoBehaviour
         return Instantiate(gObject, Vector3.zero, gObject.transform.rotation, parent);
     }
 
+    private GameObject InstantiateChoiceObject(GameObject gObject, Quaternion rotation, Transform parent = null)
+    {
+        Debug.Log($"Instantiating \"{gObject.name} - {gObject.tag}\" - parent is: {parent}", gObject);
+
+        if (parent == null) return Instantiate(gObject, Vector3.zero, rotation);
+
+        return Instantiate(gObject, Vector3.zero, rotation, parent);
+    }
+
     private void ArrangeChoicesLayout()
     {
         float rawRows = (float)_choicesButtons.Length / (float)columns;
@@ -175,9 +231,61 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void DisplayGuessedObject()
+    {
+        switch (_gameMode)
+        {
+            case GameType.guessObject:
+                _guessedDisplayBox.SetActive(false);
+                Debug.Log("_guess");
+                Debug.Log(_guess, this);
+                GameObject guess = Instantiate((GameObject)_guess, Vector3.zero, Quaternion.Euler(-30.0f, 45.0f, 0.0f), _gameResultCanvas.transform);
+                Destroy(guess.GetComponent<ObjectButton>());
+                guess.transform.localScale = new Vector3(25.0f, 25.0f, 25.0f);
+                guess.transform.localPosition = new Vector3(-12.5f, 149.0f, 0.0f);
+                break;
+
+            case GameType.guessNumber:
+                _guessedDisplayBox.GetComponentInChildren<TMP_Text>().text = _guess.ToString();
+                break;
+
+            case GameType.guessColor:
+                _guessedDisplayBox.GetComponentInChildren<TMP_Text>().text = "";
+                _guessedDisplayBox.GetComponent<Image>().color = (Color)_guess;
+                break;
+        }
+    }
+
+    private void DisplayGameResultObject()
+    {
+        switch (_gameMode)
+        {
+            case GameType.guessObject:
+                _gameResultDisplayBox.SetActive(false);
+                ObjectItem tempItem = (ObjectItem)GetGameItem();
+                Debug.Log("tempItem.ObjValue");
+                Debug.Log(tempItem.ObjValue, this);
+
+                _gameResult = Instantiate(tempItem.ObjValue, Vector3.zero, Quaternion.Euler(-30.0f, 45.0f, 0.0f), _gameResultCanvas.transform);
+                Destroy(_gameResult.GetComponent<ObjectButton>());
+                _gameResult.transform.localScale = new Vector3(50.0f, 50.0f, 50.0f);
+                _gameResult.transform.localPosition = new Vector3(-20.0f, -4.0f, 0.0f);
+                break;
+
+            case GameType.guessNumber:
+                _gameResultDisplayBox.GetComponentInChildren<TMP_Text>().text = GetGameItem().Value.ToString();
+                break;
+
+            case GameType.guessColor:
+                _gameResultDisplayBox.GetComponentInChildren<TMP_Text>().text = "";
+                _gameResultDisplayBox.GetComponent<Image>().color = (Color)GetGameItem().Value;
+                break;
+        }
+    }
+
     public void RollTheDice()
     {
-        _gameItem.GenerateRandom();
+        GetGameItem().GenerateRandom();
     }
 
     public void Guess(object guess)
@@ -186,10 +294,16 @@ public class GameManager : MonoBehaviour
         
         RollTheDice();
 
-        _guessed = _gameItem.CompareItem(_guess);
+        _guessed = GetGameItem().CompareItem(_guess);
 
-        Debug.Log($"Guess: {guess}");
-        Debug.Log($"Randomized value: {_gameItem.Value}");
+        UpdateGuessText();
+        DisplayGuessedObject();
+        ShowGameResult();
+        DisplayGameResultObject();
+        UpdateGameResultMessage();
+
+        Debug.Log($"Guess: {_guess}");
+        Debug.Log($"Randomized value: {GetGameItem().Value}");
         Debug.Log($"_guessed: {_guessed}");
 
         EventManager.TriggerEvent("Guessed");
@@ -198,7 +312,7 @@ public class GameManager : MonoBehaviour
     //public void OnGuessClicked(object guess)
     public void OnGuessClicked(object guess)
     {
-        Debug.Log($"Guessing: {guess}");
+        Debug.Log($"Guessing...");
 
         Guess(guess);
         
@@ -206,6 +320,23 @@ public class GameManager : MonoBehaviour
         {
             Destroy(_choicesButtons[i]);
         }
+    }
+
+    private void ShowGameResult()
+    {
+        _gameResultCanvas.SetActive(true);
+    }
+
+    private void UpdateGameResultMessage()
+    {
+        string gameResultMessage = (_guessed) ? GetText("gameResultMessageWin") : GetText("gameResultMessageLose");
+        EventManager.TriggerEvent("GameResultMessageChanged", gameResultMessage);
+    }
+
+    private void UpdateGuessText()
+    {
+        string guessText = GetText("guessText");
+        EventManager.TriggerEvent("GuessTextChanged", guessText);
     }
 
     private void UpdateGameTitle()
@@ -230,6 +361,12 @@ public class GameManager : MonoBehaviour
                 return "Guess the Number";
             case GameType.guessColor:
                 return "Guess the Color";
+            case "guessText":
+                return "Your guess was:";
+            case "gameResultMessageWin":
+                return $"Cheers!{System.Environment.NewLine}You guessed it!";
+            case "gameResultMessageLose":
+                return $"Sorry...{System.Environment.NewLine}You didn't guessed it.";
             default:
                 Debug.LogWarning("GetText: stringID is undefined, can't retrieve text.");
                 return "Text not found";
